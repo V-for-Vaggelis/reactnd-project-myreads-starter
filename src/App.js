@@ -16,15 +16,12 @@ class BooksApp extends React.Component {
       this.setState({ books })
     })
   }
-  removeBook = (book) => {
-    this.setState((state) => ({
-      books: this.state.books.filter((b) => b.id !== book.id),
-      showSearchPage: false
-    }))
-  }
-
-  showHomePage = () => {
-    this.setState({ showSearchPage: false })
+  removeBook = (book, val) => {
+    if (val === "none") {
+      this.setState((state) => ({
+        books: this.state.books.filter((b) => b.id !== book.id),
+      }))
+    }
   }
   render() {
     return (
