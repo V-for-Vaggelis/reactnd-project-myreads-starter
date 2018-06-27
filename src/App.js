@@ -21,11 +21,21 @@ class BooksApp extends React.Component {
       this.setState({ books })
     })
   }
+  removeBook = (book) => {
+    this.setState((state) => ({
+      books: this.state.books.filter((b) => b.id !== book.id),
+      showSearchPage: false
+    }))
+  }
+
+  showHomePage = () => {
+    this.setState({ showSearchPage: false })
+  }
   render() {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-          <SearchBook />
+          <SearchBook onBack={this.showHomePage}/>
         ) : (
           <div className="list-books">
             <div className="list-books-title">
@@ -33,9 +43,9 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <ShelfDisplay shelfName="Currently reading" books={this.state.books.filter((book) => book.shelf === "currentlyReading")} />
-                <ShelfDisplay shelfName="Want to read" books={this.state.books.filter((book) => book.shelf === "wantToRead")} />
-                <ShelfDisplay shelfName="Read" books={this.state.books.filter((book) => book.shelf === "read")} />
+                <ShelfDisplay bookRemove={this.removeBook} shelfName="Currently reading" books={this.state.books.filter((book) => book.shelf === "currentlyReading")} />
+                <ShelfDisplay bookRemove={this.removeBook} shelfName="Want to read" books={this.state.books.filter((book) => book.shelf === "wantToRead")} />
+                <ShelfDisplay bookRemove={this.removeBook} shelfName="Read" books={this.state.books.filter((book) => book.shelf === "read")} />
               </div>
             </div>
             <div className="open-search">

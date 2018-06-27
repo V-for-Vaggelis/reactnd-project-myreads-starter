@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
 import BookDisplay from "./BookDisplay"
 
-function ShelfDisplay (props) {
-  return (
-    <div className="bookshelf">
-      <h2 className="bookshelf-title">{props.shelfName}</h2>
-      <div className="bookshelf-books">
-        <ol className="books-grid">
-          {props.books.map((book) => (
-            <BookDisplay key={book.id} bookToShow={book} />
-          ))}
-        </ol>
+class ShelfDisplay extends Component {
+  render() {
+    return (
+      <div className="bookshelf">
+        <h2 className="bookshelf-title">{this.props.shelfName}</h2>
+        <div className="bookshelf-books">
+          <ol className="books-grid">
+            {this.props.books.map((book) => (
+              <BookDisplay onDeleteBook={this.props.bookRemove} key={book.id} bookToShow={book} />
+            ))}
+          </ol>
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default ShelfDisplay
