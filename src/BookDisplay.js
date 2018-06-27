@@ -7,14 +7,13 @@ function BookDisplay (props) {
     height: 192,
     backgroundImage: "url(" + props.bookToShow.imageLinks.thumbnail + ")"
   };
-
 return (
   <li>
     <div className="book">
       <div className="book-top">
         <div className="book-cover" style={divStyle}></div>
         <div className="book-shelf-changer">
-          <select onChange={(e) => props.onDeleteBook(props.bookToShow, e.target.value)}>
+          <select onChange={(e) => props.onChangeShelf(props.bookToShow, e.target.value)}>
             <option value="move" disabled>Move to...</option>
             <option value="currentlyReading">Currently Reading</option>
             <option value="wantToRead">Want to Read</option>
