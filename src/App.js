@@ -16,38 +16,49 @@ class BooksApp extends React.Component {
       this.setState({ books })
     })
   }
-  removeBook = (book, val) => {
-    if (val === "none") {
-      this.setState((state) => ({
-        books: this.state.books.filter((b) => b.id !== book.id),
-      }))
+  updateBookShelf = (book, val) => {
+    BooksAPI.update(book, val).then(() => {
+      if (val === "none") {
+        this.setState((state) => ({
+          books: this.state.books.filter((b) => b.id !== book.id)
+        }))
+      }
+      else {
+        this.setState((state) => ({
+          books: this.state.books.map((b) => {
+            if (b.id === book.id) {
+              b.shelf = val}
+              return b;
+            })
+          }))
+        }
+      })
     }
-  }
-  render() {
-    return (
-      <div className="app">
-        <Route exact path='/' render={() => (
-            <div className="list-books">
-              <div className="list-books-title">
-                <h1>MyReads</h1>
-              </div>
-              <div className="list-books-content">
-                <div>
-                  <ShelfDisplay bookRemove={this.removeBook} shelfName="Currently reading" books={this.state.books.filter((book) => book.shelf === "currentlyReading")} />
-                  <ShelfDisplay bookRemove={this.removeBook} shelfName="Want to read" books={this.state.books.filter((book) => book.shelf === "wantToRead")} />
-                  <ShelfDisplay bookRemove={this.removeBook} shelfName="Read" books={this.state.books.filter((book) => book.shelf === "read")} />
+    render() {
+      return (
+        <div className="app">
+          <Route exact path='/' render={() => (
+              <div className="list-books">
+                <div className="list-books-title">
+                  <h1>MyReads</h1>
+                </div>
+                <div className="list-books-content">
+                  <div>
+                    <ShelfDisplay bookMove={this.updateBookShelf} shelfName="Currently reading" books={this.state.books.filter((book) => book.shelf === "currentlyReading")} />
+                    <ShelfDisplay bookMove={this.updateBookShelf} shelfName="Want to read" books={this.state.books.filter((book) => book.shelf === "wantToRead")} />
+                    <ShelfDisplay bookMove={this.updateBookShelf} shelfName="Read" books={this.state.books.filter((book) => book.shelf === "read")} />
+                  </div>
+                </div>
+                <div className="open-search">
+                  <Link to='/search'>Add a book</Link>
                 </div>
               </div>
-              <div className="open-search">
-                <Link to='/search'>Add a book</Link>
-              </div>
-            </div>
-          )}/>
-          <Route path='/search' component={SearchBook}/>
-        </div>
-      )
+            )}/>
+            <Route path='/search' component={SearchBook}/>
+          </div>
+        )
+      }
     }
-  }
 
 
-  export default BooksApp
+    export default BooksApp
