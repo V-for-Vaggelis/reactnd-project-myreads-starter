@@ -19,6 +19,17 @@ class SearchBook extends Component {
     updateResults = (query) => {
       if (query) {
         BooksAPI.search(query).then((books) => {
+          // Let's add those books to the shelves they belong
+          for (let resultBook of books) {
+            for (let shelfBook of this.props.booksOnShelves) {
+              if (shelfBook.id === resultBook.id) {
+                resultBook["shelf"] = shelfBook.shelf
+              }
+              else {
+                resultBook["shelf"] = "none"
+              }
+            }
+          }
           this.setState({
             query: query.trim(),
             showingBooks: books
@@ -30,6 +41,7 @@ class SearchBook extends Component {
           query: "",
           showingBooks: [] })
         }
+
       }
     render() {
       return (
@@ -57,7 +69,6 @@ class SearchBook extends Component {
               <ol className="books-grid">
                 {/* We use an inline if in React with the && operator*/}
                 {this.state.showingBooks.length > 0 &&
-                  /*console.log(this.state.showingBooks[0].id)*/
                   this.state.showingBooks.map((book) => (
                     <BookDisplay key={book.id} onChangeShelf={this.props.bookMove} bookToShow={book} />
                   ))}
