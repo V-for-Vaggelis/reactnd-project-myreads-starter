@@ -7,54 +7,61 @@ import BookDisplay from "./BookDisplay"
 
 class SearchBook extends Component {
   state = {
-    query: ""
+    query: "",
+    showingBooks: []
   }
-  updateQuery = (query) => {
-    this.setState({ query: query.trim() })
-  }
-  render() {
-    let showingBooks
-    if (this.state.query) {
-      BooksAPI.search(this.state.query).then((books) => {
-        showingBooks = books
-        console.log(showingBooks)
+  updateResults = (query) => {
+    if (query) {
+      BooksAPI.search(query).then((books) => {
+        if (books) {
+          this.setState({
+            query: query.trim(),
+            showingBooks: books
+          })
+        }
+        else {
+          this.setState({
+          query: query.trim(),
+          showingBooks: []
+          })
+        }
       })
     }
+  }
+render() {
+  return (
+    <div className="search-books">
+      <div className="search-books-bar">
+        <Link to='/' className="close-search">Close</Link>
+        <div className="search-books-input-wrapper">
+          {/*
+            NOTES: The search from BooksAPI is limited to a particular set of search terms.
+            You can find these search terms here:
+            https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
 
-    return (
-      <div className="search-books">
-        <div className="search-books-bar">
-          <Link to='/' className="close-search">Close</Link>
-          <div className="search-books-input-wrapper">
-            {/*
-              NOTES: The search from BooksAPI is limited to a particular set of search terms.
-              You can find these search terms here:
-              https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-              However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-              you don't find a specific author or title. Every search is limited by search terms.
+            However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
+            you don't find a specific author or title. Every search is limited by search terms.
+            */}
+            <input
+              type="text"
+              placeholder="Search by title or author"
+              value={this.state.query}
+              onChange={(e) => this.updateResults(e.target.value)}
+              />
+          </div>
+        </div>
+        <div className="search-books-results">
+          <ol className="books-grid">
+            {console.log(this.state.showingBooks)}
+            {/* showingBooks.map((book) => (
+              <BookDisplay key={book.id} onChangeShelf={this.props.bookMove} bookToShow={book} />
+              ))
               */}
-              <input
-                type="text"
-                placeholder="Search by title or author"
-                value={this.state.query}
-                onChange={(e) => this.updateQuery(e.target.value)}
-                />
-            </div>
-            {console.log(showingBooks)}
+            </ol>
           </div>
-          <div className="search-books-results">
-            <ol className="books-grid">
-              {console.log(showingBooks)}
-              {/* showingBooks.map((book) => (
-                <BookDisplay key={book.id} onChangeShelf={this.props.bookMove} bookToShow={book} />
-                ))
-                */}
-              </ol>
-            </div>
-          </div>
-        )
-      }
+        </div>
+      )
     }
+  }
 
-    export default SearchBook
+  export default SearchBook
