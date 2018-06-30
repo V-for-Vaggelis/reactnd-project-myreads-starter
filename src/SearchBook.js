@@ -17,33 +17,34 @@ class SearchBook extends Component {
   })
   }*/
 
-    updateResults = (query) => {
-      if (query) {
-        BooksAPI.search(query).then((books) => {
-          // Let's add those books to the shelves they belong
-          for (let resultBook of books) {
-            for (let shelfBook of this.props.booksOnShelves) {
-              if (shelfBook.id === resultBook.id) {
-                resultBook["shelf"] = shelfBook.shelf
-              }
-              else {
-                resultBook["shelf"] = "none"
-              }
+  updateResults = (query) => {
+    if (query) {
+      BooksAPI.search(query).then((books) => {
+        // Let's add those books to the shelves they belong
+
+        const shelvedBooks = books.map((book) => {
+          for (let shelfBook of this.props.booksOnShelves) {
+            if (shelfBook.id === book.id) {
+              book["shelf"] = shelfBook.shelf
+              return book
             }
           }
-          this.setState({
-            query: query.trim(),
-            showingBooks: books
-          })
+          book["shelf"] = "none"
+          return book;
         })
-      }
-      else {
         this.setState({
-          query: "",
-          showingBooks: [] })
-        }
-
+          query: query.trim(),
+          showingBooks: shelvedBooks
+        })
+      })
+    }
+    else {
+      this.setState({
+        query: "",
+        showingBooks: [] })
       }
+
+    }
     render() {
       return (
         <div className="search-books">

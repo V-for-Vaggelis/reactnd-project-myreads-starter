@@ -17,19 +17,32 @@ class BooksApp extends React.Component {
     })
   }
   updateBookShelf = (book, val) => {
-    BooksAPI.update(book, val).then(() => {
-      if (val === "none") {
-        this.setState((state) => ({
-          books: this.state.books.filter((b) => b.id !== book.id)
-        }))
+    let match = false;
+    for (let b of this.state.books) {
+      if (b.id === book.id) {
+        match = true;
       }
-      else {
-        this.setState((state) => ({
-          books: this.state.books.map((b) => {
-            if (b.id === book.id) {
-              b.shelf = val}
-              return b;
-            })
+    }
+    BooksAPI.update(book, val).then(() => {
+      if (match === true) {
+        if (val === "none") {
+          this.setState((state) => ({
+            books: state.books.filter((b) => b.id !== book.id)
+          }))
+        }
+        else {
+          this.setState((state) => ({
+            books: state.books.map((b) => {
+              if (b.id === book.id) {
+                b.shelf = val}
+                return b;
+              })
+            }))
+          }
+        }
+        else {
+          this.setState((state) => ({
+            books: state.books.concat([book])
           }))
         }
       })
@@ -54,10 +67,10 @@ class BooksApp extends React.Component {
                 </div>
               </div>
             )}/>
-          <Route path='/search' render={({history}) => (
-                <SearchBook bookMove={() => {
-                    history.push("/")
-                    return this.updateBookShelf}} booksOnShelves={this.state.books}/>
+            <Route path='/search' render={({history}) => (
+                <SearchBook bookMove={(b, shelf) => {
+                    this.updateBookShelf(b, shelf)
+                    history.push("/")}} booksOnShelves={this.state.books}/>
                 )}/>
               </div>
             )
