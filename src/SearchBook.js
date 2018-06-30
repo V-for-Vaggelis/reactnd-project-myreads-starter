@@ -21,7 +21,6 @@ class SearchBook extends Component {
     if (query) {
       BooksAPI.search(query).then((books) => {
         // Let's add those books to the shelves they belong
-
         const shelvedBooks = books.map((book) => {
           for (let shelfBook of this.props.booksOnShelves) {
             if (shelfBook.id === book.id) {

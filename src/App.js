@@ -10,17 +10,17 @@ class BooksApp extends React.Component {
   state = {
     books: []
   }
-  // This will ensure the shelved books are pulled from the server
+  // Get initial set of books from server
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
     })
   }
   updateBookShelf = (book, val) => {
-    let match = false;
+    let match = false
     for (let b of this.state.books) {
       if (b.id === book.id) {
-        match = true;
+        match = true
       }
     }
     BooksAPI.update(book, val).then(() => {
@@ -35,7 +35,7 @@ class BooksApp extends React.Component {
             books: state.books.map((b) => {
               if (b.id === book.id) {
                 b.shelf = val}
-                return b;
+                return b
               })
             }))
           }
@@ -45,7 +45,9 @@ class BooksApp extends React.Component {
             books: state.books.concat([book])
           }))
         }
-      })
+      }).then(BooksAPI.getAll().then((books) => {
+        this.setState({ books })
+      }))
     }
     render() {
       return (
