@@ -54,13 +54,15 @@ class BooksApp extends React.Component {
                 </div>
               </div>
             )}/>
-            <Route path='/search' render={() => (
-                <SearchBook bookMove={this.updateBookShelf} booksOnShelves={this.state.books}/>
-              )}/>
-            </div>
-          )
+          <Route path='/search' render={({history}) => (
+                <SearchBook bookMove={() => {
+                    history.push("/")
+                    return this.updateBookShelf}} booksOnShelves={this.state.books}/>
+                )}/>
+              </div>
+            )
+          }
         }
-      }
 
 
-      export default BooksApp
+        export default BooksApp

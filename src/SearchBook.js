@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import BookDisplay from "./BookDisplay"
 
+
 class SearchBook extends Component {
   state = {
     query: "",
