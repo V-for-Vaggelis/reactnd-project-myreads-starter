@@ -20,10 +20,6 @@ class SearchBook extends Component {
     let trimmedQuery = query.trim()
     if (trimmedQuery) {
       BooksAPI.search(trimmedQuery).then((books) => {
-        if (!books || books.error) {
-          this.setState({showingBooks:[]})
-          return
-        }
         // Let's add those books to the shelves they belong
         let resultBooks = books.map((b) => {
           for (let shelfBook of this.props.booksOnShelves) {
@@ -33,17 +29,17 @@ class SearchBook extends Component {
             }
           }
           b["shelf"] = "none"
-          return b          
+          return b
         })
         this.setState({
-          query: trimmedQuery,
+          query: query,
           showingBooks: books
         })
       })
-      return
     }
     else {
       this.setState({
+        query: "",
         showingBooks: [] })
       }
       return
@@ -65,7 +61,6 @@ class SearchBook extends Component {
                 <input
                   type="text"
                   placeholder="Search by title or author"
-                  value={this.state.query}
                   onChange={(e) => this.updateResults(e.target.value)}
                   />
               </div>
