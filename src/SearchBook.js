@@ -20,21 +20,29 @@ class SearchBook extends Component {
     let trimmedQuery = query.trim()
     if (trimmedQuery) {
       BooksAPI.search(trimmedQuery).then((books) => {
-        // Let's add those books to the shelves they belong
-        let resultBooks = books.map((b) => {
-          for (let shelfBook of this.props.booksOnShelves) {
-            if (shelfBook.id === b.id) {
-              b["shelf"] = shelfBook.shelf
-              return b
+        if (books) {
+          // Let's add those books to the shelves they belong
+          books.map((b) => {
+            for (let shelfBook of this.props.booksOnShelves) {
+              if (shelfBook.id === b.id) {
+                b["shelf"] = shelfBook.shelf
+                return b
+              }
             }
-          }
-          b["shelf"] = "none"
-          return b
-        })
-        this.setState({
-          query: query,
-          showingBooks: books
-        })
+            b["shelf"] = "none"
+            return b
+          })
+          this.setState({
+            query: query,
+            showingBooks: books
+          })
+        }
+        else {
+          this.setState({
+            query: query,
+            showingBooks: []
+          })
+        }
       })
     }
     else {
@@ -67,10 +75,11 @@ class SearchBook extends Component {
             </div>
             <div className="search-books-results">
               <ol className="books-grid">
-                {/* We use an inline if in React with the && operator*/}
+                {/* We use an inline if with the && operator to check if there are any books to render*/}
                 {this.state.showingBooks.length > 0 &&
                   this.state.showingBooks.map((book) => (
-                    <BookDisplay key={book.id} onChangeShelf={this.props.bookMove} bookToShow={book} />
+                    <BookDisplay key={book.id} onChangeShelf={this.props.bookMove} bookToShow={book}
+                      thumb={book.imageLinks ? book.imageLinks.thumbnail : `http://via.placeholder.com/128x193?text=No%20Cover`} />
                   ))}
                 </ol>
               </div>

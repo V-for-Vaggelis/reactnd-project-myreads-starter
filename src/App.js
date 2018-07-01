@@ -59,9 +59,15 @@ class BooksApp extends React.Component {
                 </div>
                 <div className="list-books-content">
                   <div>
-                    <ShelfDisplay bookMove={this.updateBookShelf} shelfName="Currently reading" books={this.state.books.filter((book) => book.shelf === "currentlyReading")} />
-                    <ShelfDisplay bookMove={this.updateBookShelf} shelfName="Want to read" books={this.state.books.filter((book) => book.shelf === "wantToRead")} />
-                    <ShelfDisplay bookMove={this.updateBookShelf} shelfName="Read" books={this.state.books.filter((book) => book.shelf === "read")} />
+                    <ShelfDisplay bookMove={this.updateBookShelf} shelfName="Currently reading"
+                      books={this.state.books.filter((book) => book.shelf === "currentlyReading")}
+                      />
+                    <ShelfDisplay bookMove={this.updateBookShelf} shelfName="Want to read"
+                      books={this.state.books.filter((book) => book.shelf === "wantToRead")}
+                       />
+                    <ShelfDisplay bookMove={this.updateBookShelf} shelfName="Read"
+                      books={this.state.books.filter((book) => book.shelf === "read")}
+                       />
                   </div>
                 </div>
                 <div className="open-search">

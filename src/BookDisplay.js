@@ -6,7 +6,7 @@ function BookDisplay (props) {
   let divStyle = {
     width: 128,
     height: 192,
-    backgroundImage: "url(" + props.bookToShow.imageLinks.thumbnail + ")"
+    backgroundImage: `url(${props.thumb})`
   };
 return (
   <li>
