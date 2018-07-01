@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import BookDisplay from "./BookDisplay"
 
-
 class SearchBook extends Component {
   state = {
     query: "",
@@ -18,31 +17,36 @@ class SearchBook extends Component {
   }*/
 
   updateResults = (query) => {
-    if (query) {
-      BooksAPI.search(query).then((books) => {
+    let trimmedQuery = query.trim()
+    if (trimmedQuery) {
+      BooksAPI.search(trimmedQuery).then((books) => {
+        if (!books || books.error) {
+          this.setState({showingBooks:[]})
+          return
+        }
         // Let's add those books to the shelves they belong
-        const shelvedBooks = books.map((book) => {
+        let resultBooks = books.map((b) => {
           for (let shelfBook of this.props.booksOnShelves) {
-            if (shelfBook.id === book.id) {
-              book["shelf"] = shelfBook.shelf
-              return book
+            if (shelfBook.id === b.id) {
+              b["shelf"] = shelfBook.shelf
+              return b
             }
           }
-          book["shelf"] = "none"
-          return book;
+          b["shelf"] = "none"
+          return b          
         })
         this.setState({
-          query: query.trim(),
-          showingBooks: shelvedBooks
+          query: trimmedQuery,
+          showingBooks: books
         })
       })
+      return
     }
     else {
       this.setState({
-        query: "",
         showingBooks: [] })
       }
-
+      return
     }
     render() {
       return (
