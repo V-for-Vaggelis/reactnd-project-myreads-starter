@@ -17,6 +17,7 @@ class BooksApp extends React.Component {
     })
   }
   updateBookShelf = (book, val) => {
+    // Check if the book to updated is already shelved
     let match = false
     for (let b of this.state.books) {
       if (b.id === book.id) {
@@ -25,12 +26,12 @@ class BooksApp extends React.Component {
     }
     BooksAPI.update(book, val).then(() => {
       if (match === true) {
-        if (val === "none") {
+        if (val === "none") {//If it is shelved, and selected values is none, remove it
           this.setState((state) => ({
             books: state.books.filter((b) => b.id !== book.id)
           }))
         }
-        else {
+        else {//Else move it to the selected shelf
           this.setState((state) => ({
             books: state.books.map((b) => {
               if (b.id === book.id) {
@@ -40,18 +41,19 @@ class BooksApp extends React.Component {
             }))
           }
         }
-        else {
+        else {//If it wasn't shelved, add it to the books of state
           this.setState((state) => ({
             books: state.books.concat([book])
           }))
         }
-      }).then(BooksAPI.getAll().then((books) => {
+      }).then(BooksAPI.getAll().then((books) => {//After the changes, update the state to show books with new changes
         this.setState({ books })
       }))
     }
     render() {
       return (
         <div className="app">
+          {/* Use exact path so that it isn't partly matched and create problems*/}
           <Route exact path='/' render={() => (
               <div className="list-books">
                 <div className="list-books-title">
@@ -78,6 +80,7 @@ class BooksApp extends React.Component {
             <Route path='/search' render={({history}) => (
                 <SearchBook bookMove={(b, shelf) => {
                     this.updateBookShelf(b, shelf)
+                    {/* On changing shelf to a searched book, we get re-directed to the home page*/}
                     history.push("/")}} booksOnShelves={this.state.books}/>
                 )}/>
               </div>
