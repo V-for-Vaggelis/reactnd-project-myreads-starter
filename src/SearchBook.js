@@ -50,7 +50,7 @@ class SearchBook extends Component {
     }
     render() {
       const { booksOnShelves, bookMove } = this.props
-      const { showingBooks } = this.state
+      const { showingBooks, query } = this.state
       return (
         <div className="search-books">
           <div className="search-books-bar">
@@ -65,17 +65,20 @@ class SearchBook extends Component {
           </div>
           <div className="search-books-results">
             <ol className="books-grid">
-              {/* We use an inline if with the && operator to check if there are any books to render*/}
-              {showingBooks.length > 0 &&
+              {/* We use ternary operator to check if there are any books to render*, if there are not we use inline if (&&), to print message*/}
+              {showingBooks.length > 0 ?
                 showingBooks.map((book) => (
                   <BookDisplay key={book.id} onChangeShelf={bookMove} bookToShow={book}
                     thumb={book.imageLinks ? book.imageLinks.thumbnail : `http://via.placeholder.com/128x193?text=No%20Cover`} />
-                ))}
-              </ol>
-            </div>
+                )) :
+                (query.length > 0) &&
+                <li> No books match your search query! </li>
+              }
+            </ol>
           </div>
-        )
-      }
+        </div>
+      )
     }
+  }
 
-    export default SearchBook
+  export default SearchBook
