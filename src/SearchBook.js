@@ -8,6 +8,7 @@ class SearchBook extends Component {
     query: "",
     showingBooks: []
   }
+
   // This function will show results directly on query change
   updateResults = (query) => {
     // Clear white spaces before using query to search
@@ -48,6 +49,8 @@ class SearchBook extends Component {
       return
     }
     render() {
+      const { booksOnShelves, bookMove } = this.props
+      const { showingBooks } = this.state
       return (
         <div className="search-books">
           <div className="search-books-bar">
@@ -63,9 +66,9 @@ class SearchBook extends Component {
           <div className="search-books-results">
             <ol className="books-grid">
               {/* We use an inline if with the && operator to check if there are any books to render*/}
-              {this.state.showingBooks.length > 0 &&
-                this.state.showingBooks.map((book) => (
-                  <BookDisplay key={book.id} onChangeShelf={this.props.bookMove} bookToShow={book}
+              {showingBooks.length > 0 &&
+                showingBooks.map((book) => (
+                  <BookDisplay key={book.id} onChangeShelf={bookMove} bookToShow={book}
                     thumb={book.imageLinks ? book.imageLinks.thumbnail : `http://via.placeholder.com/128x193?text=No%20Cover`} />
                 ))}
               </ol>

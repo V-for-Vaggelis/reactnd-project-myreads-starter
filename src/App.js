@@ -51,6 +51,7 @@ class BooksApp extends React.Component {
       }))
     }
     render() {
+      const { books } = this.state
       return (
         <div className="app">
           {/* Use exact path so that it isn't partly matched and create problems*/}
@@ -62,13 +63,13 @@ class BooksApp extends React.Component {
                 <div className="list-books-content">
                   <div>
                     <ShelfDisplay bookMove={this.updateBookShelf} shelfName="Currently reading"
-                      books={this.state.books.filter((book) => book.shelf === "currentlyReading")}
+                      books={books.filter((book) => book.shelf === "currentlyReading")}
                       />
                     <ShelfDisplay bookMove={this.updateBookShelf} shelfName="Want to read"
-                      books={this.state.books.filter((book) => book.shelf === "wantToRead")}
+                      books={books.filter((book) => book.shelf === "wantToRead")}
                        />
                     <ShelfDisplay bookMove={this.updateBookShelf} shelfName="Read"
-                      books={this.state.books.filter((book) => book.shelf === "read")}
+                      books={books.filter((book) => book.shelf === "read")}
                        />
                   </div>
                 </div>
@@ -81,7 +82,7 @@ class BooksApp extends React.Component {
                 <SearchBook bookMove={(b, shelf) => {
                     this.updateBookShelf(b, shelf)
                     {/* On changing shelf to a searched book, we get re-directed to the home page*/}
-                    history.push("/")}} booksOnShelves={this.state.books}/>
+                    history.push("/")}} booksOnShelves={books}/>
                 )}/>
               </div>
             )
