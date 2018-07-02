@@ -26,12 +26,14 @@ function BookDisplay (props) {
           return author
         }
         else {
+          // Seperate multiple author by ","
           return author + ", "
         }
       })
       return authors
     }
     else {
+      // Return this if there are no authors
       return "-"
     }
   }

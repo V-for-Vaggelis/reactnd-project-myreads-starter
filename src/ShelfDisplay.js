@@ -10,7 +10,7 @@ function ShelfDisplay (props) {
           {props.books.map((book) => (
             <BookDisplay key={book.id} onChangeShelf={props.bookMove} bookToShow={book}
               thumb={book.imageLinks ? book.imageLinks.thumbnail : `http://via.placeholder.com/128x193?text=No%20Cover`}/>
-          ))}
+          ))} {/* If book has no thumbnail so a "no-cover" image */}
         </ol>
       </div>
     </div>
