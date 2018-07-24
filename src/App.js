@@ -55,7 +55,7 @@ class BooksApp extends React.Component {
       return (
         <div className="app">
           {/* Use exact path so that it isn't partly matched and create problems*/}
-          <Route exact path='/' render={() => (
+          <Route exact path={`${process.env.PUBLIC_URL}/`} render={() => (
               <div className="list-books">
                 <div className="list-books-title">
                   <h1>MyReads</h1>
@@ -78,7 +78,7 @@ class BooksApp extends React.Component {
                 </div>
               </div>
             )}/>
-            <Route path='/search' render={({history}) => (
+          <Route path={`${process.env.PUBLIC_URL}/search`} render={({history}) => (
                 <SearchBook bookMove={(b, shelf) => {
                     this.updateBookShelf(b, shelf)
                     {/* On changing shelf to a searched book, we get re-directed to the home page*/}
