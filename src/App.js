@@ -74,7 +74,7 @@ class BooksApp extends React.Component {
                   </div>
                 </div>
                 <div className="open-search">
-                  <Link to='/search'>Add a book</Link>
+                  <Link to={`${process.env.PUBLIC_URL}/search`}>Add a book</Link>
                 </div>
               </div>
             )}/>
@@ -82,7 +82,7 @@ class BooksApp extends React.Component {
                 <SearchBook bookMove={(b, shelf) => {
                     this.updateBookShelf(b, shelf)
                     {/* On changing shelf to a searched book, we get re-directed to the home page*/}
-                    history.push("/")}} booksOnShelves={books}/>
+                    history.push(`${process.env.PUBLIC_URL}/`)}} booksOnShelves={books}/>
                 )}/>
               </div>
             )

@@ -1,4 +1,4 @@
-# MyReads Project
+# My-Reads App
 
 My-Reads, is an internet app that helps someone keep track of the books he has read. This project was not built from scratch, a starter code provided by Udacity was used. The task was, to take that static, starter code and turn it into an interactive and functional app using react.js
 
@@ -11,7 +11,10 @@ My-Reads, is an internet app that helps someone keep track of the books he has r
 
 ## How to run
 
-To run the app locally, navigate in the directory you want to place it and:
+**Production build:**
+Using <a href="https://v-for-vaggelis.github.io/reactnd-project-myreads-starter/">this live page</a> is recommended
+
+**Developer build:** navigate in the directory you want to place the app and:
 
 * clone the current repository: `git clone https://github.com/V-for-Vaggelis/reactnd-project-myreads-starter.git`
 * navigate in the project's repository
