@@ -8,6 +8,7 @@
     "sort-by": "^1.2.0"
   },
   "devDependencies": {
+    "gh-pages": "^1.2.0",
     "react-scripts": "1.1.4"
   },
   "scripts": {
